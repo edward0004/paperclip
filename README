@@ -16,15 +16,26 @@ In your migrations:
 
   class AddAvatarColumnsToUser < ActiveRecord::Migration
     def self.up
-      add_column :users, :avatar_file_name, :string
-      add_column :users, :avatar_content_type, :string
-      add_column :users, :avatar_file_size, :integer
+      add_paperclip_columns :users, :avatar
     end
 
     def self.down
-      remove_column :users, :avatar_file_name
-      remove_column :users, :avatar_content_type
-      remove_column :users, :avatar_file_size
+      remove_paperclip_columns :users, :avatar
+    end
+  end
+
+or...
+
+  class CreateRoleModels < ActiveRecord::Migration
+    def self.up
+      create_table :role_models do |t|
+        # your migration code
+        t.paperclip :avatar     # if no argument provided, defaults to 'attachment'
+      end
+    end
+
+    def self.down
+      drop_table :role_models
     end
   end
 
